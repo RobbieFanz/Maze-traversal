@@ -9,61 +9,54 @@ public class MazeTraversal {
 			{0,1,0,0}, {1,1,0,1}, {1,1,1,0}, {1,0,1,0},
 			{0,1,0,0}, {1,1,1,0}, {1,1,0,0}, {1,0,0,0}};//Left, Right, Up, Down (1 is true 0 is false)
 	
-	public static boolean left(int location) {
-		if (maze[location][0]==1) {
-			return true;
-		}else {
-			return false;
-		}
-	}
-	public static boolean right(int location) {
-		if (maze[location][1]==1) {
-			return true;
-		}else {
-			return false;
-		}
-	}
-	
-	public static boolean up(int location) {
-		if (maze[location][2]==1) {
-			return true;
-		}else {
-			return false;
-		}
-	}
-	public static boolean down(int location) {
-		if (maze[location][3]==1) {
-			return true;
-		}else {
-			return false;
-		}
-	}
 	
 	public static void find(int location, int end, int[] visited) {
-		int visit[] = new int[21];
+		boolean ends = true;
+		int visit[] = new int[16];
 		visit = visited.clone();
 		visit[location]=1; 
 		if (location == end) {
-			System.out.println(Arrays.toString(visit));
+			ends = false;
+			for (int i=0; i <visit.length; i++) {
+				if(i%4==0) {
+					System.out.println();
+				}
+				System.out.print(visit[i]);
+			}
+			System.out.println();
 		}
 		
-		if (left(location) && visited[location-1]!=1) {
+		if (maze[location][0]==1 && visited[location-1]!=1) {
 			find(location-1,end,visit); 
+			ends = false;
+			
 		}
 		
-		if (right(location) && visited[location+1]!=1) {
+		if (maze[location][1]==1 && visited[location+1]!=1) {
 			find(location+1,end,visit); 
+			ends = false;
 		}
 		
-		if (down(location) && visited[location+4]!=1) {
+		if (maze[location][3]==1 && visited[location+4]!=1) {
 			find(location+4,end,visit); 
+			ends = false;
 		}
 		
-		if (up(location) && visited[location-4]!=1) {
-			find(location-4,end,visit); 
+		if (maze[location][2]==1 && visited[location-4]!=1) {
+			find(location-4,end,visit);
+			ends = false;
+		}
+		if (ends) {
+			for (int i=0; i <visit.length; i++) {
+				if(i%4==0) {
+					System.out.println();
+				}
+				System.out.print(visit[i]);
+			}
+			System.out.println();
+			System.out.println("not valid");
 		}
 		
-		//System.out.println(Arrays.toString(visited) + "not possible");
 	}
 	
 	
@@ -76,9 +69,6 @@ public class MazeTraversal {
 		
 		find(start,end,visited);
 		
-		
-		
-
 	}
 
 }
